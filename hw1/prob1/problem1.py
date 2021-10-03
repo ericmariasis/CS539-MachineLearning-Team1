@@ -1,4 +1,3 @@
-# TODO consider some additional hyperparameter tuning?
 
 import pandas as pd
 import matplotlib.pyplot as plt
