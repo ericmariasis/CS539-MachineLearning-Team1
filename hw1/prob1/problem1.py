@@ -62,6 +62,7 @@ lin_expected = y_test
 
 # show plot of expected vs predicted values
 plt.figure(figsize=(4, 3))
+plt.title('Linear Regression')
 plt.scatter(lin_expected, lin_predicted)
 plt.plot([0, 50], [0, 50], '--k')
 plt.axis('tight')
@@ -80,6 +81,7 @@ grad_predicted = gradient_reg.predict(X_test)
 grad_expected = y_test
 
 plt.figure(figsize=(4, 3))
+plt.title('Gradient Boosting')
 plt.scatter(grad_expected, grad_predicted)
 plt.plot([0, 50], [0, 50], '--k')
 plt.axis('tight')
@@ -117,6 +119,7 @@ print("Final random forest regressor RMSE is", final_rmse)
 
 
 plt.figure(figsize=(4, 3))
+plt.title('Random Forest')
 plt.scatter(forest_expected, final_predictions)
 plt.plot([0, 50], [0, 50], '--k')
 plt.axis('tight')
