@@ -39,15 +39,25 @@ print()
 
 labels = dataset.target
 true_k = np.unique(labels).shape[0]
-km = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
 
 vectorizer = TfidfVectorizer(max_df=0.5, min_df=2, stop_words='english')
 X = vectorizer.fit_transform(dataset.data)
+k_values = range(1, 61)
+inertia_values = [MiniBatchKMeans(k).fit(X).inertia_
+                  for k in k_values]
+plt.plot(k_values, inertia_values)
+plt.xlabel('K')
+plt.ylabel('Inertia')
+plt.axvline(20, c='k')
+plt.grid(True)
+plt.show()
+
+
+km = KMeans(n_clusters=true_k, init='k-means++', max_iter=100, n_init=1)
+vectorizer = TfidfVectorizer(max_df=0.5, min_df=2, stop_words='english')
+X = vectorizer.fit_transform(dataset.data)
 print("Clustering sparse data with %s" % km)
-t0 = time()
 km.fit(X)
-print("done in %0.3fs" % (time() - t0))
-print()
 
 print("Homogeneity: %0.3f" % metrics.homogeneity_score(labels, km.labels_))
 print("Completeness: %0.3f" % metrics.completeness_score(labels, km.labels_))
@@ -56,7 +66,6 @@ print("Adjusted Rand-Index: %.3f"
       % metrics.adjusted_rand_score(labels, km.labels_))
 print("Silhouette Coefficient: %0.3f"
       % metrics.silhouette_score(X, km.labels_, sample_size=1000))
-
 print()
 order_centroids = km.cluster_centers_.argsort()[:, ::-1]
 
@@ -79,10 +88,6 @@ true_k = np.unique(labels).shape[0]
 # Convert to TF-IDF format
 vectorizer = TfidfVectorizer(max_df=0.5, min_df=2, stop_words='english', use_idf=True)
 X_train = vectorizer.fit_transform(data_train.data)
-
-# Reduce dimensions
-svd = TruncatedSVD(n_components)
-normalizer = Normalizer(copy=False)
 
 print(len(data_train.data))
 
@@ -115,7 +120,6 @@ disp = ConfusionMatrixDisplay(confusion_matrix=cm,
                               display_labels=data_train.target_names)
 
 
-# NOTE: Fill all variables here with default values of the plot_confusion_matrix
 fig, ax = plt.subplots(figsize=(10, 10))
 disp = disp.plot(xticks_rotation='vertical', ax=ax, cmap='winter')
 
