@@ -95,7 +95,7 @@ def benchmark(clf):
 
     score = metrics.accuracy_score(y_test, pred)
     print("accuracy:   %0.3f" % score)
-
+    
     if hasattr(clf, 'coef_'):
         print("dimensionality: %d" % clf.coef_.shape[1])
         print("density: %f" % density(clf.coef_))
@@ -119,6 +119,7 @@ clf = LogisticRegression(
     solver="liblinear",
     tol=1e-6,
 )
+benchmark(clf)
 coefs_ = []
 for c in cs:
     clf.set_params(C=c)
@@ -138,6 +139,7 @@ plt.show()
 clf = LogisticRegression(
     tol=1e-6,
 )
+benchmark(clf)
 coefs_ = []
 for c in cs:
     clf.set_params(C=c)
@@ -213,7 +215,7 @@ clf = LogisticRegression(
         penalty="elasticnet", solver="saga", l1_ratio=0.8,
         tol=1e-6,
 )
-
+benchmark(clf)
 coefs_ = []
 for c in cs:
     clf.set_params(C=c)
